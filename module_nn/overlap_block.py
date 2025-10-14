@@ -88,21 +88,4 @@ class overlap_block_dec(nn.Module):
                 atom_interactions_size.append(interaction.shape)
     
         return atom_pairs_types_list, atom_interactions_size
-if __name__ == '__main__':
-    import matplotlib.pyplot as plt
-    mol2 = '/Users/jiaoyuan/Documents/GitHub/deeph_dft_molecules/deeph_mol/dataset/mol/1.mol2'
-    overlap_block = overlap_block_dec(mol2)
-    S_ao, atom_slices = overlap_block.get_overlap()
-    print(S_ao)
-    atom_blocks, atom_interactions, off_diag_num = overlap_block.get_atom_block()
-    atom_pairs, atom_pairs_num = overlap_block.get_atom_pairs()
-    print(atom_pairs)
-    print(atom_pairs_num)
-    atom_type_block_size_dict = overlap_block.get_single_atom_type_block_size()
-    print(atom_type_block_size_dict)
-    atom_pairs_types_list, atom_interactions_size = overlap_block.get_atoms_pairs_block_size()
-    print(atom_pairs_types_list[1])
-    print(atom_interactions_size)
-    
-    plt.imshow(S_ao)
-    plt.show()
+

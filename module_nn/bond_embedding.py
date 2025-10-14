@@ -136,7 +136,7 @@ class Bond_Embedding(nn.Module):
         save_npz(f'{self.files}/{self.index}_b.npz',bond_type_matrix)
     def forward(self):
         distance, index = self.get_atom_pairs_distance()
-        direction, index = self.get_atom_pairs_direction()
+        direction= self.get_atom_pairs_direction()
         bond_type_matrix = self.get_bond_type()
         gb_matrix = self.gaussian_basis_matrix()
-        return distance, index, direction, bond_type_matrix, gb_matrix
+        return  gb_matrix,bond_type_matrix, direction

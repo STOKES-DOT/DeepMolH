@@ -10,6 +10,7 @@ class Edges_Embedding(nn.Module):#edge feature embedding with MLP
         self.bond_embed = bond_embedding.Bond_Embedding(self.mol2)
         gb_matrix = self.bond_embed.gaussian_basis_matrix()
         bond_type_matrix = self.bond_embed.get_bond_type()
+        
         self.bond_matrix = bond_type_matrix
         self.register_buffer('gb_matrix', torch.tensor(gb_matrix, dtype=torch.float32))
         self.register_buffer('bond_type_matrix', torch.tensor(bond_type_matrix, dtype=torch.float32))
@@ -56,5 +57,6 @@ class Edges_Embedding(nn.Module):#edge feature embedding with MLP
         edge_info1 = (edge_info1 + edge_info1.transpose(0, 1)) / 2
         edge_info2 = (edge_info2 + edge_info2.transpose(0, 1)) / 2
         degree_matrix = torch.tensor(self.get_degree_matrix(), dtype=torch.float32)
-        return edge_info1, edge_info2, degree_matrix
+        edges_direction = self.bond_embed.forward()[2]
+        return edge_info1, edge_info2, degree_matrix, edges_direction
 

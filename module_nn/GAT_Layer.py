@@ -7,7 +7,6 @@ import edges_embedding
 import nodes_embedding
 import bond_embedding
 class GATlayer_Base(torch.nn.Module):
-    head_dim = 1
     def __init__(self, num_in_features, num_out_features, num_of_heads=2, concat=False, activation=nn.ELU(),
                  dropout_prob=0.6, add_skip_connection=True, bias=True, log_attention_weights=False):
 

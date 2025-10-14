@@ -5,7 +5,7 @@ import numpy as np
 class Atom_Embedding(nn.Module):
     def __init__(self,mol2):
         super().__init__()
-        self.atom_type_dict = "/Users/jiaoyuan/Documents/GitHub/deeph_dft_molecules/deeph_mol/module_nn/atom_embedding_shell.dat"
+        self.atom_type_dict = "module_nn/atom_embedding_shell.dat"
         self.mol2 = mol2
         self.atom_types = self.get_atom_type()
     def get_atom_type(self):
