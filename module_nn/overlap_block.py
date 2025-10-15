@@ -89,3 +89,12 @@ class overlap_block_dec(nn.Module):
     
         return atom_pairs_types_list, atom_interactions_size
 
+if __name__ == '__main__':
+    mol2 = '/Users/jiaoyuan/Documents/GitHub/DeepMolH/DeepMolH/dataset/mol/10.mol2'
+    test_module = overlap_block_dec(mol2)
+    atom_blocks, atom_interactions, off_diag_num = test_module.get_atom_block()
+    atom_pairs, atom_pairs_num = test_module.get_atom_pairs()
+    atom_type_block_size_dict = test_module.get_single_atom_type_block_size()
+    atom_pairs_types_list, atom_interactions_size = test_module.get_atoms_pairs_block_size()
+    
+    print(atom_type_block_size_dict)

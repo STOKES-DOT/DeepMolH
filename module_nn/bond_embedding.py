@@ -134,9 +134,19 @@ class Bond_Embedding(nn.Module):
         save_npz(f'{self.files}/{self.index}_g.npz',gaussian_matrix)
         bond_type_matrix = csr_matrix(self.bond_type_matrix)
         save_npz(f'{self.files}/{self.index}_b.npz',bond_type_matrix)
+    def get_degree_matrix(self):
+        bond_type_matrix = self.get_bond_type()
+        degree_matrix = np.zeros_like(bond_type_matrix)
+        num_atoms = bond_type_matrix.shape[0]
+        for i in range(num_atoms):
+            for j in range(num_atoms):
+                if bond_type_matrix[i,j] != 0:
+                    degree_matrix[i,j] = 1
+        return degree_matrix
     def forward(self):
         distance, index = self.get_atom_pairs_distance()
         direction= self.get_atom_pairs_direction()
         bond_type_matrix = self.get_bond_type()
         gb_matrix = self.gaussian_basis_matrix()
-        return  gb_matrix,bond_type_matrix, direction
+        degree_matrix = self.get_degree_matrix()
+        return  gb_matrix, bond_type_matrix, degree_matrix, direction

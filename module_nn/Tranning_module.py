@@ -4,12 +4,15 @@ import torch.nn.functional as F
 import scipy.sparse as sp
 import matplotlib.pyplot as plt
 from NeuralNetwork import DeepMolH
-
-mol2 = '/Users/jiaoyuan/Documents/GitHub/DeepMolH/DeepMolH/dataset/mol/10.mol2'
-target_Hamiltonian = sp.load_npz('/Users/jiaoyuan/Documents/GitHub/DeepMolH/DeepMolH/dataset/Hamiltonian/10_h.npz').toarray()
-
-
-model = DeepMolH(mol2)
-Hamiltonian_block = model.forward()
-
+import os
+class Tranning_module(nn.Module):
+    def __init__(self, mol_dir, target_Hamiltonian):
+        super().__init__()
+        self.model = DeepMolH()
+        self.mol_dir = mol_dir
+        self.target_Hamiltonian = target_Hamiltonian
+    def training_data_load(self):
+        self.mol2 = os.path.join(self.mol_dir, self.mol2)
+        self.target_Hamiltonian = torch.from_numpy(self.target_Hamiltonian).float()
+        mol2 = os.path.join(self.mol_dir, self.mol2)
 
