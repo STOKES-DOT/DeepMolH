@@ -228,11 +228,17 @@ class MolEmbeddingLayer(nn.Module):
         return node_feat, edge_feat_dis, edge_feat_bond, degree_tensor, edges_direction
     
 class DeepMolH(nn.Module):
-    def __init__(self, num_egat_layers=2, num_gat_layers=0, num_heads=8, dropout=0.6):
+    def __init__(self, num_egat_layers=10, num_gat_layers=10, num_heads=8, dropout=0.1):
         super(DeepMolH, self).__init__()
         self.mol2 = f'/Users/jiaoyuan/Documents/GitHub/DeepMolH/DeepMolH/module_nn/net.mol2'        
-        self.nodes_feat, self.edges_feat_dis,self.edges_feat_bond, self.degree_tensor, self.edges_direction = MolEmbeddingLayer().forward(self.mol2)
-        self.gatlayer = GraphAttentionLayer(node_in_dim=self.nodes_feat.shape[1], num_out_dim=self.nodes_feat.shape[1], num_heads=num_heads, num_gat_layers=num_gat_layers, num_egat_layers=num_egat_layers, dropout=dropout)
+        self.nodes_feat, self.edges_feat_dis,self.edges_feat_bond, self.degree_tensor, self.edges_direction = MolEmbeddingLayer().forward(self.mol2)    
+        self.gatlayer = GraphAttentionLayer(
+            node_in_dim=self.nodes_feat.shape[1], 
+            num_out_dim=self.nodes_feat.shape[1], 
+            num_heads=num_heads, 
+            num_gat_layers=num_gat_layers, 
+            num_egat_layers=num_egat_layers, 
+            dropout=dropout)
         self.HamiltonianBlockGenLayer = HamiltonianBlockGenLayer()
     def forward(self, mol2):
         nodes_feat, edges_feat_dis, edges_feat_bond, degree_tensor, edges_direction = MolEmbeddingLayer().forward(mol2)
@@ -244,6 +250,3 @@ class DeepMolH(nn.Module):
         Hamiltonian_block = self.HamiltonianBlockGenLayer.forward(out_nodes_features, connectivity_mask, mol2)
     #NOTE: GATLayer seemly not work well, we use EGATLayer instead or correct the GATLayer !!!!
         return Hamiltonian_block
-        
-
-
