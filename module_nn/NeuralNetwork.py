@@ -209,7 +209,7 @@ class GraphAttentionLayer(nn.Module):
     def forward(self, node_feat, edges1, edges2, edges_direction, degree_tensor, cut_off=5.0):
         for i,layer in enumerate(self.gnn_layers):
             if i < self.num_gat_layers:
-                node_feat, connectivity_mask = layer.forward(node_feat, edges1, edges2, degree_tensor, cut_off)
+                node_feat, connectivity_mask = layer.forward(node_feat, degree_tensor, edges1, edges2,  cut_off)
             else:
                 node_feat, connectivity_mask = layer.forward(node_feat, edges1, edges2, edges_direction, degree_tensor, cut_off)
             if i < self.num_egat_layers + self.num_gat_layers - 1:
@@ -248,5 +248,4 @@ class DeepMolH(nn.Module):
         edges_direction = torch.tensor(edges_direction, dtype=torch.float32)
         out_nodes_features, connectivity_mask = self.gatlayer.forward(nodes_feat, edges_feat_dis, edges_feat_bond, edges_direction,degree_tensor)
         Hamiltonian_block = self.HamiltonianBlockGenLayer.forward(out_nodes_features, connectivity_mask, mol2)
-    #NOTE: GATLayer seemly not work well, we use EGATLayer instead or correct the GATLayer !!!!
         return Hamiltonian_block

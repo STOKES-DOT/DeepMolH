@@ -40,7 +40,7 @@ class CompleteDeepMolHTrainer:
         self.val_losses = []
         self.test_predictions = []
         
-    def load_dataset(self, train_ratio=0.7, val_ratio=0.15):
+    def load_dataset(self, train_ratio=0.2, val_ratio=0.1):
         """加载并划分数据集"""
         mol_dir = os.path.join(self.data_dir, 'mol')
         hamiltonian_dir = os.path.join(self.data_dir, 'Hamiltonian')
@@ -184,7 +184,7 @@ class CompleteDeepMolHTrainer:
         patience = 8
         patience_counter = 0
         
-        for epoch in range(100):  # 最大100个epoch用于超参数搜索
+        for epoch in range(50):  # 最大100个epoch用于超参数搜索
             # 训练
             train_loss = self.train_epoch(model, optimizer, train_data)
             
@@ -210,7 +210,7 @@ class CompleteDeepMolHTrainer:
         
         return best_val_loss
     
-    def run_hyperparameter_optimization(self, n_trials=30):
+    def run_hyperparameter_optimization(self, n_trials=10):
         """运行超参数优化"""
         if not self.use_optuna:
             print("Optuna optimization disabled. Using default parameters.")
