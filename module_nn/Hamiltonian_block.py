@@ -39,21 +39,21 @@ class Hamiltonian_diagonal_block(nn.Module):
         )
         
         self.H_diag_net_off_diag = nn.Sequential(
-            nn.Linear(self.orbital_size, self.orbital_size),
+            nn.Linear(self.orbital_size, self.orbital_size**2),
             nn.ELU(),
-            nn.Linear(self.orbital_size, self.orbital_size),
+            nn.Linear(self.orbital_size**2, self.orbital_size**2),
             nn.ELU(),
-            nn.Linear(self.orbital_size, self.orbital_size),
+            nn.Linear(self.orbital_size**2, self.orbital_size**2),
             nn.ELU(),
-            nn.Linear(self.orbital_size, self.orbital_size),
+            nn.Linear(self.orbital_size**2, self.orbital_size**2),
             nn.ELU(),   
-            nn.Linear(self.orbital_size, self.orbital_size),
+            nn.Linear(self.orbital_size**2, self.orbital_size**2),
             nn.ELU(),   
-            nn.Linear(self.orbital_size, self.orbital_size),   
+            nn.Linear(self.orbital_size**2, self.orbital_size**2),   
             nn.ELU(),
-            nn.Linear(self.orbital_size, self.orbital_size),
+            nn.Linear(self.orbital_size**2, self.orbital_size**2),
             nn.ELU(),   
-            nn.Linear(self.orbital_size, self.num_off_diag_elements)
+            nn.Linear(self.orbital_size**2, self.num_off_diag_elements)
         )
         
         self.coupling_strength = nn.Parameter(torch.tensor(0.1))
